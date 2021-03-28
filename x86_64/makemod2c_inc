@@ -1,0 +1,41 @@
+
+./ChR2H134R.c: ../mods/ChR2H134R.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\n"
+	(cd "../mods"; MODLUNIT=$(NRNUNITS) $(NOCMODL) ChR2H134R.mod -o "/Users/giuliafranco/Desktop/Neuron_Simulations/x86_64")
+
+./ChR2H134R.o: ./ChR2H134R.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\n"
+	$(COMPILE) -I"../mods" $(INCLUDES) -fPIC -c $< -o $@
+
+./WB.c: ../mods/WB.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\n"
+	(cd "../mods"; MODLUNIT=$(NRNUNITS) $(NOCMODL) WB.mod -o "/Users/giuliafranco/Desktop/Neuron_Simulations/x86_64")
+
+./WB.o: ./WB.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\n"
+	$(COMPILE) -I"../mods" $(INCLUDES) -fPIC -c $< -o $@
+
+./WBCN.c: ../mods/WBCN.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\n"
+	(cd "../mods"; MODLUNIT=$(NRNUNITS) $(NOCMODL) WBCN.mod -o "/Users/giuliafranco/Desktop/Neuron_Simulations/x86_64")
+
+./WBCN.o: ./WBCN.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\n"
+	$(COMPILE) -I"../mods" $(INCLUDES) -fPIC -c $< -o $@
+
+./WBS.c: ../mods/WBS.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\n"
+	(cd "../mods"; MODLUNIT=$(NRNUNITS) $(NOCMODL) WBS.mod -o "/Users/giuliafranco/Desktop/Neuron_Simulations/x86_64")
+
+./WBS.o: ./WBS.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\n"
+	$(COMPILE) -I"../mods" $(INCLUDES) -fPIC -c $< -o $@
+
+./hhCN.c: ../mods/hhCN.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\n"
+	(cd "../mods"; MODLUNIT=$(NRNUNITS) $(NOCMODL) hhCN.mod -o "/Users/giuliafranco/Desktop/Neuron_Simulations/x86_64")
+
+./hhCN.o: ./hhCN.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\n"
+	$(COMPILE) -I"../mods" $(INCLUDES) -fPIC -c $< -o $@
+

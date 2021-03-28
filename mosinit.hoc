@@ -1,0 +1,180 @@
+load_file("nrngui.hoc")
+
+model=6
+display=1
+objref initDialog
+initDialog = new VBox(1)
+initDialog.intercept(1)
+xpanel("Mechanism")
+xlabel("Select model to run")
+xradiobutton("Deterministic HH","model=1")
+xradiobutton("HHMC: Markov Chanin  modelling","model=2")
+xradiobutton("HHDA: Unbound diffusion approximation","model=3")
+xradiobutton("HHTR: DA with Truncation and Restoration","model=5")
+xradiobutton("HHRef: DA with Reflection procedure","model=6",1)
+xradiobutton("HHSSmc: Stochastic Shielding with MC","model=7")
+xradiobutton("HHSSda: Stochastic Shielding with DA","model=8")
+xradiobutton("HHCN: Colored Noise algorithm","model=9")
+xpanel()
+xpanel("Simulation")
+xlabel("Select type of simulation")
+xradiobutton("Short simulation with voltage display/export","display=1",1)
+xradiobutton("Long simulation with ISI data export","display=0")
+xpanel()
+initDialog.intercept(0)
+
+initDialog.dialog("Simulations with Stochastic HH model")
+
+strdef mechName,cmd,NNa,NK
+if (model==0) {quit()}
+if (model==1) {mechName="hh"}
+if (model==2) {mechName="hhMC"}
+if (model==3) {mechName="hhDA"}
+if (model==5) {mechName="hhTR"}
+if (model==6) {mechName="hhRef"}
+if (model==7) {mechName="hhSSmc"}
+if (model==8) {mechName="hhSSda"}
+if (model==9) {mechName="hhCN"}
+
+                             
+create soma
+access soma
+L=318.31
+diam=100
+
+sprint(cmd,"soma {insert %s NNa_%s=6000 NK_%s=1800}",mechName,mechName,mechName)
+sprint(NNa,"NNa_%s",mechName)
+sprint(NK,"NK_%s",mechName)
+execute(cmd)
+
+if (display) {tstop = 10000}else{tstop=500000}
+v_init = -60
+dt=0.01
+steps_per_ms=50
+
+objref stim, nc1, apvec, null
+
+stim=new IClamp(0.5)
+stim.del = 25
+stim.amp = 7.9
+stim.dur = 0.27303
+
+// *** Spike and ISI recording ***
+objref apvec, isivec
+apvec=new Vector()
+isivec=new Vector()
+last_time=0
+isi=0
+proc apeval(){
+	apvec.append(t)
+	isi=t-last_time
+	isivec.append(isi)
+	last_time=t
+}
+nc1 = new NetCon(&v(0.5),null)
+nc1.threshold = 0
+nc1.record("apeval()")
+
+// *** Graphic stuff ***
+NKrel=0
+if (display==1) {saveTrace=1}else{saveTrace=0}
+objref box1, agraph
+box1 = new VBox()
+box1.intercept(1)
+  if (display) {
+  	agraph = new Graph()
+  	agraph.size(0,tstop,-90,40)
+  	graphList[0].append(agraph)
+  	agraph.addexpr("soma.v( 0.5 )", 1, 1)
+  }
+  xpanel("",1)
+	  xvalue("Na channels",NNa,1,"checkNNa()")
+	  xvalue("K channels",NK,1,"checkNK()")
+	  xcheckbox("NK=0.3 * NNa",&NKrel)
+	  xvalue("Tstop", "tstop", 1, "tstop_changed()", 0, 1)
+    xlabel("    ")
+    xlabel(mechName)
+  	xbutton("Stop","stoprun=1")
+  xpanel()
+  xpanel("",1)
+    xfixedvalue("Time","t")
+		xpvalue("Real Time", &realtime)
+		xfixedvalue("spikes","apvec.size")
+		xfixedvalue("last ISI","isi")
+ 		xbutton("Run","do()")
+		
+		xbutton("Save","save()")
+		if (display) {xcheckbox("Save trace",&saveTrace)}
+    
+	xpanel()
+box1.intercept(0)
+if (display) {box1.map("",50,50,900,500)}else{box1.map("",50,50,900,100)}
+                                     
+//   *** Trace recording ***
+objref vvec, tvec, outfile, outmtx
+if (display) {
+  sampinvl = 0.1  //sample interval in ms per point 
+  outfile = new File()
+  outmtx = new Matrix()
+ 	vvec = new Vector(tstop/sampinvl + 1)
+	tvec = new Vector(tstop/sampinvl + 1)
+	vvec.record(&soma.v(0.5),sampinvl)
+	tvec.record(&t,sampinvl)
+}
+
+proc do() {
+	last_time=0
+	isi=0
+	apvec.resize(0)
+	isivec.resize(0)
+	
+	run()
+}
+             
+objref file1, ISImtx, vMatrix
+file1 = new File()
+strdef isiFileName, traceFileName
+
+proc save() {
+  sprint(cmd,"N_Na=%s",NNa)
+  execute(cmd)
+  sprint(cmd,"N_K=%s",NK)
+  execute(cmd)
+  
+  if (saveTrace) {
+    sprint(traceFileName,"vTrace%s-NNa%g-NK%g.txt",mechName,N_Na,N_K)
+    vMatrix=new Matrix(tstop/sampinvl+1,2)
+   	vMatrix.setcol(0,tvec)
+		vMatrix.setcol(1,vvec)
+		  
+		file1.wopen(traceFileName)
+		file1.printf("t\tv\n")
+		vMatrix.fprint(file1,"%12.4f\t")
+		file1.close
+	}
+    
+  if (apvec.size>1) {
+    sprint(isiFileName,"ISIs%s-NNa%g-NK%g.txt",mechName,N_Na,N_K)
+  	outmtx=new Matrix(apvec.size,2)
+  	outmtx.setcol(0,apvec)
+  	outmtx.setcol(1,isivec)
+  
+  	file1.wopen(isiFileName)
+  	outmtx.fprint(0,file1,"%-g\t","\n")
+  	file1.close
+  }
+}
+
+proc checkNNa() {
+  if (NKrel) {
+    sprint(cmd,"%s = int(%s * 0.3)",NK,NNa)
+    execute(cmd)
+  }
+}
+
+proc checkNK() {
+  if (NKrel) {
+    sprint(cmd,"%s = int(%s / 0.3)",NNa,NK)
+    execute(cmd)
+  }
+}

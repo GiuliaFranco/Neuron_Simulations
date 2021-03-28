@@ -200,3 +200,4 @@ plt.ylabel('Latency (ms)')
 plt.title(' Soma Latency response phases freq=40 Hz')
 plt.legend(loc="lower right")
 plt.show()
+

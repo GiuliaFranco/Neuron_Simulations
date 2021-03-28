@@ -41,9 +41,9 @@ python3 Real_neuron.py
 
 So far only electrical simulation on real neuron are implemented. Inside Real_neuron.py you can create the neuron structure 'soma+axon' specifying the biological constants as you wish. Moreover, the code is implemented for accepting 3 kind of biophysical dynamics:
 
-- 'WB': Wang Buszaki model --> see WB.mod file in mods folder for implementation details
-- 'WBS': Wang Buszaki model + slow sodium inactivation --> see WBS.mod file in mods folder for implementation details
-- 'WBCN': Wang Buszaki model + slow sodium inactivation + Guler stochasticity --> see WBCN.mod file in mods folder for implementation details
+- 'WB': Wang Buzsaki model --> see WB.mod file in mods folder for implementation details
+- 'WBS': Wang Buzsaki model + slow sodium inactivation --> see WBS.mod file in mods folder for implementation details
+- 'WBCN': Wang Buzsaki model + slow sodium inactivation + Guler stochasticity --> see WBCN.mod file in mods folder for implementation details
 
 The model is specified by the user as input of a function.
 

@@ -52,8 +52,8 @@ extern double hoc_Exp(double);
 #define el _p[4]
 #define NNa _p[5]
 #define NK _p[6]
-#define PhiAs _p[7]
-#define PhiBs _p[8]
+#define Phi_as _p[7]
+#define Phi_bs _p[8]
 #define il _p[9]
 #define phiK _p[10]
 #define phiNa _p[11]
@@ -236,8 +236,8 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "el_WBCN",
  "NNa_WBCN",
  "NK_WBCN",
- "PhiAs_WBCN",
- "PhiBs_WBCN",
+ "Phi_as_WBCN",
+ "Phi_bs_WBCN",
  0,
  "il_WBCN",
  "phiK_WBCN",
@@ -270,8 +270,8 @@ static void nrn_alloc(Prop* _prop) {
  	el = -54.3;
  	NNa = 6000;
  	NK = 1800;
- 	PhiAs = 5e-05;
- 	PhiBs = 0.00051;
+ 	Phi_as = 5e-05;
+ 	Phi_bs = 0.00051;
  	_prop->param = _p;
  	_prop->param_size = 43;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 7, _prop);
@@ -520,8 +520,8 @@ static void _hoc_etah(void) {
  
 static int  func (  double _lv ) {
    double _lq10 ;
-  as = PhiAs * exp ( - ( _lv + 85. ) / 30. ) ;
-   bs = PhiBs / ( exp ( - 0.3 * ( _lv + 17. ) ) + 1.0 ) ;
+  as = Phi_as * exp ( - ( _lv + 85. ) / 30. ) ;
+   bs = Phi_bs / ( exp ( - 0.3 * ( _lv + 17. ) ) + 1.0 ) ;
    am = 0.1 * ( _lv + 40.0 ) / ( 1.0 - exp ( - ( _lv + 40.0 ) / 10.0 ) ) ;
    bm = 4.0 * exp ( - ( _lv + 65.0 ) / 18.0 ) ;
    ah = 0.07 * exp ( - ( _lv + 65.0 ) / 20.0 ) ;
@@ -789,7 +789,7 @@ static const char* nmodl_file_text =
   "	USEION na READ ena WRITE ina\n"
   "	USEION k READ ek WRITE ik\n"
   "	NONSPECIFIC_CURRENT il\n"
-  "	RANGE gnabar, gkbar, gl, el, NNa, NK, se, m, h, n, s, phiNa, phiK, PhiAs, PhiBs\n"
+  "	RANGE gnabar, gkbar, gl, el, NNa, NK, se, m, h, n, s, phiNa, phiK, Phi_as, Phi_bs\n"
   "}\n"
   " \n"
   "PARAMETER {\n"
@@ -807,8 +807,8 @@ static const char* nmodl_file_text =
   "	gamNa = 10\n"
   "	wNa2 = 200\n"
   "	TNa = 800\n"
-  "	PhiAs = 0.00005\n"
-  "	PhiBs = 0.00051\n"
+  "	Phi_as = 0.00005\n"
+  "	Phi_bs = 0.00051\n"
   "}\n"
   " \n"
   "ASSIGNED {\n"
@@ -925,8 +925,8 @@ static const char* nmodl_file_text =
   "PROCEDURE func(v(mV)) {  :Computes rate and other constants at current v.\n"
   "	LOCAL q10\n"
   "	UNITSOFF\n"
-  "	as=PhiAs*exp(-(v+85.)/30.)\n"
-  "	bs=PhiBs/(exp(-0.3*(v+17.))+1)\n"
+  "	as=Phi_as*exp(-(v+85.)/30.)\n"
+  "	bs=Phi_bs/(exp(-0.3*(v+17.))+1)\n"
   "	am = 0.1*(v+40)/(1-exp(-(v+40)/10))\n"
   "	bm = 4*exp(-(v+65)/18)\n"
   "	ah = 0.07*exp(-(v+65)/20) \n"

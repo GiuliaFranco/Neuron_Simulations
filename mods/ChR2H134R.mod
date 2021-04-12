@@ -48,7 +48,7 @@ PARAMETER {
 : Below are constants, variables that are not changed within
 : this mechanism, and other variables changed by the user through the hoc code...
 
-    n=3.                                      : number of light pulse
+    n=0.                                      : number of light pulse
 	gmax  			= 0.4  		(mS/cm2)	  : maximal conductance
 	EChR2 			= 0.     	(mV)          : reversal potential
 

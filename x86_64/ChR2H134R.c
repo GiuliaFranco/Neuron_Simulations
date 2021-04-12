@@ -247,7 +247,7 @@ static void nrn_alloc(Prop* _prop) {
 	double *_p; Datum *_ppvar;
  	_p = nrn_prop_data_alloc(_mechtype, 27, _prop);
  	/*initialize range parameters*/
- 	n = 3;
+ 	n = 0;
  	gmax = 0.4;
  	light_delay = 100;
  	pulse_width = 100;
@@ -621,7 +621,7 @@ static const char* nmodl_file_text =
   ": Below are constants, variables that are not changed within\n"
   ": this mechanism, and other variables changed by the user through the hoc code...\n"
   "\n"
-  "    n=3.                                      : number of light pulse\n"
+  "    n=0.                                      : number of light pulse\n"
   "	gmax  			= 0.4  		(mS/cm2)	  : maximal conductance\n"
   "	EChR2 			= 0.     	(mV)          : reversal potential\n"
   "\n"

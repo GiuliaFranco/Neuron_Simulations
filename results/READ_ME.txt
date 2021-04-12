@@ -4,6 +4,12 @@ Latency[ms] current time[sec] spike time[sec] spike amplitude [mV]
 
 For i in 1,5,10,15,20,25,30,35,40,45,50 Hz.
 
+Results' folders:
+
+- WBS_guler :  WB + slow sodium inactivation + guler stochasticity 
+- WBS :  WB + slow sodium inactivation
+- WB :  WB 
+
 Current applied is an electrical squared train impulse with aplitude 7.96 uA and duration of the single squared pulse 0.26 ms.
 Total stimulation time: 3600000 ms (1 Hour).
 Simulations use all the same integration step of 0.01 ms.

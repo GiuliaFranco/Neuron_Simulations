@@ -34,7 +34,7 @@ You should notice a new folder created called x86_64.
 Finally run the code with:
 
 ```
-python3 Real_neuron.py
+python3 main.py
 ```
 
 #### Real Neuron - Electrical Simulations

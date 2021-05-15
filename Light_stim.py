@@ -25,10 +25,10 @@ class Light():
 		else:
 			self.stimulation_point=self.soma(0.5) 
 
-	def Inject_Pulse(self,tot,freq,wavelength,light_intensity,pulse_width):
+	def Inject_Pulse(self,tot,int_sec,wavelength,light_intensity,pulse_width):
 		self.stimulation_point.ChR2.wavelength=wavelength
 		self.stimulation_point.ChR2.pulse_width=pulse_width
-		self.stimulation_point.ChR2.light_delay=freq
+		self.stimulation_point.ChR2.light_delay=int_sec
 		self.stimulation_point.ChR2.n=int(tot/self.stimulation_point.ChR2.light_delay)
 		self.stimulation_point.ChR2.light_intensity=light_intensity
 		n=int(self.stimulation_point.ChR2.n)
@@ -37,11 +37,11 @@ class Light():
 		h.topology()
 		return n
 
-	def Ligh_Train_Impulse_Soma(self,point='soma',T=5000,freq=40,wavelength=470,pulse_width=2,light_intensity=4.4):
+	def Ligh_Train_Impulse_Soma(self,point='soma',T=5000,freq=25,wavelength=470,pulse_width=0.85,light_intensity=20):
 		self.StimulationPoint(point)
-		n=self.Inject_Pulse(T,freq,wavelength,light_intensity,pulse_width)
 		int_sec=1000/freq # distance in ms between pulses
-		self.Record_Simulation_Electrical(T)
+		n=self.Inject_Pulse(T,int_sec,wavelength,light_intensity,pulse_width)
+		self.Record_Simulation_Light(T)
 		self.Latency(n,int_sec,self.Record_pack[0][0],self.lat,self.spike_t)
 		self.Latency(n,int_sec,self.Record_pack[1][0],self.lat_AIS,self.spike_t_AIS)
 		self.Latency(n,int_sec,self.Record_pack[2][0],self.lat_MA,self.spike_t_MA)
@@ -82,7 +82,7 @@ class Light():
 				self.Record_pack[i][3].record(points[i].WB._ref_n) 
 				self.Record_pack[i][5].record(h._ref_t)
 
-	def Record_Simulation_Electrical(self,T,dt=0.01):
+	def Record_Simulation_Light(self,T,dt=0.01):
 		'''
         Run & Recording dynamics
 		'''

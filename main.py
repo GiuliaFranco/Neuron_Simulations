@@ -17,7 +17,7 @@ sup.InjectDynamics('WBCN',opsin_bool=True)   ## create cell dynamic
 #stimulation.Electrical_Train_Impulse_Soma(T=1000)
 
 stimulation=stimLight.Light(sup)
-stimulation.Ligh_Train_Impulse_Soma(T=60000)
+stimulation.Ligh_Train_Impulse_Soma(T=30000)
 
 
 ##### EXAMPLE OF ACCESS TO VARIABLES: Print voltage vs time recorded ######
@@ -29,7 +29,7 @@ plt.ylabel('Voltage (mV)')
 plt.legend(loc="upper right")
 plt.show()
 
-'''
+
 ##### EXAMPLE OF ACCESS TO VARIABLES: Print latency vs spike time recorded ######
 plt.plot(stimulation.spike_t, stimulation.lat, '.', color='darkred', label="soma")
 plt.xlabel('time (s)')
@@ -37,4 +37,3 @@ plt.ylabel('Latency (ms)')
 plt.title(' Soma Latency response phases freq=40 Hz')
 plt.legend(loc="lower right")
 plt.show()
-'''

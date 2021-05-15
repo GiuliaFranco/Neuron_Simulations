@@ -18,7 +18,7 @@ NEURON {
 	USEION na READ ena WRITE ina
 	USEION k READ ek WRITE ik
 	NONSPECIFIC_CURRENT il
-	RANGE gnabar, gkbar, gl, el, NNa, NK, se, m, h, n, s, phiNa, phiK, Phi_as, Phi_bs
+	RANGE gnabar, gkbar, gl, el, NNa, NK, se, m, h, n, s, phiNa, phiK
 }
  
 PARAMETER {
@@ -36,8 +36,6 @@ PARAMETER {
 	gamNa = 10
 	wNa2 = 200
 	TNa = 800
-	Phi_as = 0.00005
-	Phi_bs = 0.00051
 }
  
 ASSIGNED {
@@ -154,8 +152,8 @@ FUNCTION etah (ah (/ms), bh (/ms)) (/ms) {
 PROCEDURE func(v(mV)) {  :Computes rate and other constants at current v.
 	LOCAL q10
 	UNITSOFF
-	as=Phi_as*exp(-(v+85.)/30.)
-	bs=Phi_bs/(exp(-0.3*(v+17.))+1)
+	as=0.00005*exp(-(v+85.)/30.)
+	bs=0.00051/(exp(-0.3*(v+17.))+1)
 	am = 0.1*(v+40)/(1-exp(-(v+40)/10))
 	bm = 4*exp(-(v+65)/18)
 	ah = 0.07*exp(-(v+65)/20) 

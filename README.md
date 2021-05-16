@@ -4,7 +4,7 @@
 Repository for Neuron simulation code. 
 
 
-#### Run instruction
+#### Run instruction for real neuron python code
 
 In order to run simulation I recommend using Python3. You can check your current python version typing in your terminal:
 
